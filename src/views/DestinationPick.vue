@@ -17,7 +17,7 @@
             </v-col>
         </v-row>
         <v-row >
-            <v-col v-for="destination in destonationList" :key="destination.id" @click="this.$router.push('/plans/'+destination.name)">
+            <v-col v-for="destination in destonationList" :key="destination.id" @click="this.$router.push('/plans/'+destination.id)">
                 <v-avatar class="ma-5" style="height:220px; width:220px; border-radius: 10px; object-fit:cover;">
                     <!-- 목적지 사진 -->
                     <v-img

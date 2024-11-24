@@ -1,11 +1,11 @@
 <template>
     <v-container>
-        <v-row  align="start">
+        <v-row align="start">
             <v-col cols="10" class="title">
                 {{ destination }} 을 다녀온 시람들의 여행 계획 ✈️
             </v-col>
             <v-col cols="2">
-                <div class="plan-button">
+                <div class="plan-button" @click="planCreateModal=true">
                     내 일정 만들기
                 </div>
             </v-col>
@@ -22,13 +22,22 @@
                 </v-card>
             </v-col>
         </v-row>
+
+        <!-- 여행 생성 모달 -->
+        <PlanCreateModalVue v-model="planCreateModal" @update:dialog="planCreateModal = $event;" @create-plan="addPlan">
+        </PlanCreateModalVue>
     </v-container>
 </template>
 <script>
 import { useRoute } from 'vue-router';
+import PlanCreateModalVue from '@/components/PlanCreateModal.vue'
 export default {
+    components: {
+        PlanCreateModalVue
+    },
     data() {
         return {
+            planCreateModal: false,
             destination: "",
             planList: [
                 {
@@ -93,6 +102,7 @@ export default {
     font-size: 28px;
     font-weight: 600;
 }
+
 .plan-button {
     font-size: 16px;
     font-weight: 500;
@@ -100,5 +110,6 @@ export default {
     padding: 5px 5px;
     border-radius: 10px;
     color: white;
+    cursor: pointer;
 }
 </style>
