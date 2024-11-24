@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '@/views/MainPage.vue';
 import DestinationPick from '@/views/DestinationPick.vue';
 import PlanList from '@/views/plan/PlanList.vue';
+import PlanView from '@/views/plan/PlanView.vue';
+import LoginPage from '@/views/LoginPage.vue';
 
 const routes = [
     {
@@ -18,6 +20,16 @@ const routes = [
         path: '/plans/:destination',
         name: 'PlanList',
         component: PlanList,
+    },
+    {
+        path: '/plan/:planId',
+        name: 'PlanView',
+        component: PlanView,
+    },
+    {
+        path: '/login',
+        name: 'LoginPage',
+        component: LoginPage,
     },
 ];
 
