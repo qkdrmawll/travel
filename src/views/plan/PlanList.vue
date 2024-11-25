@@ -24,7 +24,7 @@
         </v-row>
 
         <!-- 여행 생성 모달 -->
-        <PlanCreateModalVue v-model="planCreateModal" @update:dialog="planCreateModal = $event;" @create-plan="addPlan">
+        <PlanCreateModalVue v-model="planCreateModal" :destination="destination" @update:dialog="planCreateModal = $event;">
         </PlanCreateModalVue>
     </v-container>
 </template>

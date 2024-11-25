@@ -32,6 +32,9 @@
 <script>
 import axios from 'axios';
 export default {
+    props: [
+        'destination'
+    ],
     data() {
         return {
             startDate: null,
@@ -45,7 +48,7 @@ export default {
                 startDate: this.startDate,
                 endDate: this.endDate,
                 title: this.title,
-                destinationName: "서울"
+                destinationName: this.destination
             };
             const response = await axios.post(`${process.env.VUE_APP_API_BASE_URL}/plan`, newPlan);
             console.log(response);

@@ -17,7 +17,7 @@
             </v-col>
         </v-row>
         <v-row >
-            <v-col v-for="destination in destonationList" :key="destination.id" @click="this.$router.push('/plans/'+destination.id)">
+            <v-col v-for="destination in destonationList" :key="destination.id" @click="this.$router.push('/plans/'+destination.name)">
                 <v-avatar class="ma-5" style="height:220px; width:220px; border-radius: 10px; object-fit:cover;">
                     <!-- 목적지 사진 -->
                     <v-img
@@ -36,22 +36,22 @@ export default {
                 {
                     id: 1,
                     image: "https://travel1030.s3.ap-southeast-2.amazonaws.com/4.png",
-                    name: "대한민국 제주"
+                    name: "제주"
                 },
                 {
                     id: 2,
                     image: "https://travel1030.s3.ap-southeast-2.amazonaws.com/3%5C.png",
-                    name: "미국 뉴욕"
+                    name: "뉴욕"
                 },
                 {
                     id: 3,
                     image: "https://travel1030.s3.ap-southeast-2.amazonaws.com/paris.png",
-                    name: "프랑스 파리"
+                    name: "파리"
                 },
                 {
                     id: 4,
                     image: "https://travel1030.s3.ap-southeast-2.amazonaws.com/seoul.png",
-                    name: "대한민국 서울"
+                    name: "서울"
                 },
                 {
                     id: 5,
