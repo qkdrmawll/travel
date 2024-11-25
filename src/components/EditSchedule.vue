@@ -22,6 +22,8 @@
                 <option value="식당">식당</option>
                 <option value="관광명소">관광명소</option>
             </select>
+            <!-- 이미지 업로드 추가 -->
+            <input type="file" @change="handleFileUpload" accept="image/*" />
             <div class="add-location-button" @click="addLocation">추가</div>
         </v-col>
         <v-col>
@@ -35,8 +37,6 @@
         </v-col>
 
     </v-row>
-    
-
 
 
 </template>
@@ -55,8 +55,8 @@ export default {
             places: [],
             markers: [],
             category: "카페",
-            searchInput: ""
-
+            searchInput: "",
+            file: null,
         }
     },
     watch: {
@@ -84,8 +84,11 @@ export default {
         },
         selectLocation(location) {
             this.location = location;
+            this.searchInput = location.place_name;
             console.log(location);
             this.places = [];
+            const firstPosition = new window.kakao.maps.LatLng(location.y, location.x);
+            this.kakaoMap.panTo(firstPosition); // 지도 중심 이동
         },
         loadKakaoMapScript() {
             const script = document.createElement('script');
@@ -155,16 +158,25 @@ export default {
                 this.kakaoMap.panTo(firstPosition); // 지도 중심 이동
             }
         },
+        // 파일 업로드 처리
+        handleFileUpload(event) {
+            this.file = event.target.files[0];
+        },
         async addLocation() {
             const formData = new FormData();
-            formData.append('latitude', this.location.x);
-            formData.append('longitude', this.location.y);
-            formData.append('address', this.location.address_name);
-            formData.append('day', this.day);
-            formData.append('scheduleOrder', this.locations.length+1);
-            formData.append('category', "관광명소");
-            formData.append('locationName', this.location.place_name);
-            formData.append('planId', this.planId);
+            const dto = {
+                latitude: this.location.x,
+                longitude: this.location.y,
+                address: this.location.address_name,
+                day: this.day, // 반드시 'YYYY-MM-DD' 형식으로 전달
+                scheduleOrder: this.locations.length + 1,
+                category: "관광명소",
+                locationName: this.location.place_name,
+                planId: this.planId,
+            };
+
+            formData.append('locationCreateReqDto', new Blob([JSON.stringify(dto)], { type: "application/json" })); // JSON 직렬화
+            formData.append('file', this.file); // 파일 추가
 
             try {
                 await axios.post(`${process.env.VUE_APP_API_BASE_URL}/location`, formData, {
@@ -174,6 +186,7 @@ export default {
                 });
                 this.location = null;
                 this.searchInput = "";
+                this.file = null;
                 this.loadLocations();
             } catch (error) {
                 console.error('위치등록 중 오류 발생:', error.response.data);
@@ -220,6 +233,7 @@ export default {
     font-weight: 600;
     text-align: start;
 }
+
 .add-location-button {
     font-size: 20px;
     font-weight: 600;
@@ -231,10 +245,12 @@ export default {
     width: 100px;
     padding: 5px 8px;
 }
+
 .search-input {
     margin: 10px auto;
     width: 100%;
 }
+
 .category {
     margin-top: 10px;
     border: 1px solid #8f9091;
